@@ -1,0 +1,26 @@
+web:
+    container_name: esgi-web
+    image: nginx:latest
+    ports:
+        - "8080:80"
+    volumes:
+        - ./code:/code
+        - ./site.conf:/etc/nginx/conf.d/site.conf
+    links:
+        - php
+        - database
+php:
+    container_name: esgi-php
+    build: php-fpm
+    volumes:
+        - ./code:/code
+database:
+    container_name: esgi-db
+    image: mysql:5.5
+    ports:
+        - "3306:3306"  
+    environment:
+        - MYSQL_ROOT_PASSWORD=root
+        - MYSQL_DATABASE=esgi
+        - MYSQL_USER=root
+        - MYSQL_PASSWORD=root
