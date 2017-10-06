@@ -1,10 +1,10 @@
 version: "2"
 services:
     web:
-        container_name: esgi-web
+        container_name: esgi-web-1
         image: nginx:latest
         ports:
-            - "8080:80"
+            - "9190:80"
         volumes:
             - ./code:/code
             - ./site.conf:/etc/nginx/conf.d/site.conf
@@ -12,28 +12,28 @@ services:
             - php
             - database
     php:
-        container_name: esgi-php
+        container_name: esgi-php-1
         build: php-fpm
         volumes:
             - ./code:/code
     database:
-        container_name: esgi-db
+        container_name: esgi-db-1
         image: mysql:5.5
         ports:
-            - "3306:3306"  
+            - "9191:3306"  
         environment:
             - MYSQL_ROOT_PASSWORD=root
             - MYSQL_DATABASE=esgi
             - MYSQL_USER=user
             - MYSQL_PASSWORD=user
     phpmyadmin:
-      container_name: esgi-pma
+      container_name: esgi-pma-1
       image: phpmyadmin/phpmyadmin
       restart: always
       links:
         - database
       ports:
-        - 8183:80
+        - 9192:80
       environment:
         PMA_HOST: esgi-db
         PMA_USER: root
